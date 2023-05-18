@@ -43,8 +43,8 @@ const Login = () => {
 <br />  CC:::::::::::::::C  L:::::::::L              I::::::::I                   R:::::RRRRRRR:::::R  P::::PPPPPPP:::::P    GG:::::::::::::::G
 <br />  C:::::CCCCCCCC:::C  LL:::::::LL              II::::::II                   RR::::R     R:::::R  P::::P     P:::::P  G:::::GGGGGGGG::::G
 <br />C:::::C       CCCCCC    L:::::L                  I::::I                     R:::::R     R:::::R  P::::P     P:::::P G:::::G       GGGGGG
-<br />C:::::C                 L:::::L                  I::::I                     R:::::R     R::::R   P::::P     P:::::PG:::::G              
-<br />C:::::C                 L:::::L                  I::::I                     R:::::RRRRRRR:::R    P::::PPPPPPP::::P G:::::G              
+<br />C:::::C                 L:::::L                  I::::I                     R:::::R     R::::R   P::::P     P:::::PG:::::G
+<br />C:::::C                 L:::::L                  I::::I                     R:::::RRRRRRR:::R    P::::PPPPPPP::::P G:::::G
 <br />C:::::C                 L:::::L                  I::::I   ---------------   R:::::::::::::RR     P:::::::::::::PP  G:::::G    GGGGGGGGGG
 <br />C:::::C                 L:::::L                  I::::I   -:::::::::::::-   R::::RRRRRR:::::R    P::::PPPPPPPPP    G:::::G    G::::::::G
 <br />C:::::C                 L:::::L                  I::::I   ---------------   R::::R     R:::::R   P::::P            G:::::G    GGGGG::::G
