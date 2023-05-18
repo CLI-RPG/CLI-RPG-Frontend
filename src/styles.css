@@ -1,0 +1,58 @@
+body {
+    background-color: #121212;
+}
+
+label, pre {
+    color: #39ff14;
+}
+
+button:hover, input[type="text"], input[type="password"], select {
+    background-color: #121212;
+    border-radius: 2vw;
+    border: 0.25vw solid #39ff14;
+    color: #39ff14;
+    text-indent: 1vw;
+}
+
+button {
+    border-radius: 2vw;
+    border: 1vw;
+    background-color: #39ff14;
+    color: #121212;
+    border: 0.25vw solid #39ff14;
+}
+
+.center {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.multiline-label {
+    display: block;
+    white-space: pre;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: auto auto;
+    padding-left: 10vw;
+    padding-right: 10vw;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3vh;
+}
