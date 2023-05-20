@@ -17,18 +17,14 @@ function getSessionId() {
 
 const Game = () => {
 
-  let gamedata = {
-    health: NaN,
-    attackPwr: NaN,
-    shield: NaN,
-    level: NaN,
-    money: NaN,
-    map: [],
-    scenarioID: "scenario name",
-    currentEnemyHP: NaN,
-    rendered_map: ""
-  }
-  const refR = useRef("");
+  const CommandR = useRef("");
+
+  const Scenario_R = useRef("");
+  const Actions_R = useRef("");
+  const Stats_R = useRef("");
+  const Map_R = useRef("");
+  const Response_R = useRef("");
+
 
   function dataGET() {
     fetch( "http://localhost:8000/api/session_data/" + getSessionId(), {
@@ -39,7 +35,15 @@ const Game = () => {
     })
     .then(response => response.json())
     .then(gd => {
-      gamedata=gd
+      Scenario_R.current.innerText = gd.scenarioID
+      Stats_R.current.innerText = "health: " + gd.health + "\nattack: " + gd.attackPwr + "\nshield: " + gd.shield + "\nmoney: " + gd.money
+      Map_R.current.innerText = gd.rendered_map
+
+      Actions_R.current.innerText = ""
+
+      for (const [k, v] of Object.entries(gd.actions)) {
+        Actions_R.current.innerText += k + ": " + v + "\n"
+      }
     })
     .catch(error => {
       console.error(error);
@@ -51,7 +55,21 @@ const Game = () => {
   }, []);
 
   function SendAction() {
-
+    let action = parseInt(CommandR.current.value)
+    fetch("http://localhost:8000/api/act/" + getSessionId() + "/" + action, {
+      method: "POST",
+      headers: {
+        'x-access-token': getToken()
+      }
+    }).then(resp => {
+      if (resp.status == 410) {
+        alert("YOU HAVE DIED")
+      }
+      return resp.text()
+    }).then(txt => {
+      Response_R.current.innerText = txt.replace(/^"(.*)"$/, '$1');
+      dataGET()
+    })
   }
 
   return (
@@ -61,7 +79,7 @@ const Game = () => {
         <title>CLI_RPG Game</title>
         <link rel="stylesheet" type="text/css" href="../styles.css"></link>
       </head>
-      <h1 className="center">Scenariu joc din DB</h1>
+      <h1 className="center" ref={Scenario_R} style={{color: "#39ff14"}}>Scenariu joc din DB</h1>
       <div className="container">
         <div className="column">
           <div className="row">
@@ -73,6 +91,7 @@ const Game = () => {
                 fontSize: "1vw",
               }}
               id="stats"
+              ref={Stats_R}
             >
             </pre>
           </div>
@@ -85,8 +104,9 @@ const Game = () => {
                 fontSize: "1.5vw",
               }}
               id="label2"
+              ref={Actions_R}
             >
-              lala
+              lalala
             </pre>
           </div>
         </div>
@@ -99,7 +119,7 @@ const Game = () => {
                 border: "0.25vw solid #39ff14",
                 fontSize: "1.5vw",
               }}
-              // ref={mapR}
+              ref={Map_R}
               id="label3"
             >
               lala
@@ -115,7 +135,8 @@ const Game = () => {
                   fontSize: "1.5vw",
                 }}
                 onClick={() => {
-
+                  SendAction()
+                  dataGET()
                 }}
               >
                 ACT!
@@ -127,6 +148,7 @@ const Game = () => {
                   width: "80%",
                   fontSize: "1.5vw",
                 }}
+                ref={Response_R}
               >
                 You did nothing!
               </label>
@@ -141,6 +163,7 @@ const Game = () => {
                 }}
                 type="text"
                 id="command"
+                ref={CommandR}
               />
             </div>
           </div>
