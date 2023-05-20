@@ -35,7 +35,7 @@ const Select = () => {
       },
       body: JSON.stringify({
           "name": name,
-          "level": level,
+          "level": parseInt(level),
           "scenario": scenario
       })
     })
@@ -80,14 +80,11 @@ const Select = () => {
             required
           />
           <label style={{ fontSize: "1.5vw" }}>Level:</label>
-          <input
-            style={{ fontSize: "1.5vw", width: "20vw" }}
-            type="text"
-            id="level"
-            name="level"
-            ref={new_level_R}
-            required
-          />
+          <select style={{ fontSize: "1.5vw", width: "20vw" }} ref={new_level_R}>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
           <label style={{ fontSize: "1.5vw" }}>Scenario:</label>
           <select style={{ fontSize: "1.5vw", width: "20vw" }} ref={new_scenario_R}>
             <option value="option1">Option 1</option>
