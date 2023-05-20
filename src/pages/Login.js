@@ -5,11 +5,15 @@ import {useRef} from 'react';
 const registerURL = 'http://localhost:8000/auth/register';
 const loginURL = 'http://localhost:8000/auth/login';
 
+function setToken(userToken) {
+  sessionStorage.setItem('token', userToken)
+}
+
 const Login = () => {
   const usernameR = useRef("");
   const passwordR = useRef("");
 
-  function buttonFunction(url) {
+  function register(url) {
     let username = usernameR.current.value;
     console.log(username);
 
@@ -32,7 +36,36 @@ const Login = () => {
     .catch(error => {
         console.error(error);
     });
-}
+  }
+
+  function login(url) {
+    let username = usernameR.current.value;
+    console.log(username);
+
+    let password = CryptoJS.SHA256(passwordR.current.value).toString(CryptoJS.enc.Base64);
+    console.log(password);
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "username": username,
+            "password": password
+        })
+    })
+    .then(response => {
+        console.log(response.status);
+        response.json().then(j => {
+          console.log(j.token);
+          setToken(j.token);
+        })
+    })
+    .catch(error => {
+        console.error(error);
+    });
+  }
 
   return (
     <div className="center">
@@ -83,14 +116,14 @@ const Login = () => {
           <button
             id="login_btn"
             style={{ marginTop: "1vh", fontSize: "1.5vw", width: "10vw" }}
-            onClick={() => buttonFunction(loginURL)}
+            onClick={() => login(loginURL)}
           >
             Login
           </button>
           <button
             id="register_btn"
             style={{ marginTop: "1vh", fontSize: "1.5vw", width: "10vw" }}
-            onClick={() => buttonFunction(registerURL)}
+            onClick={() => register(registerURL)}
           >
             Register
           </button>

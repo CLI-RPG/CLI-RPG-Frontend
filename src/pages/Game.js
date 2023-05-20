@@ -6,7 +6,12 @@ const base = 'http://localhost:8000/api/';
 // const statsURL = base + 'player_stats/' + session;
 const mapURL = base + 'map/' + session;
 
-const url = 'session_data/' + session;
+const url = base + 'session_data/' + session;
+
+function getToken() {
+  const tokenString = sessionStorage.getItem('token')
+  return tokenString
+}
 
 const Game = () => {
   const statsR = useRef("");
@@ -39,12 +44,13 @@ const Game = () => {
     fetch(url, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-access-token': getToken()
       }
     })
       .then(response => {
         console.log(response);
-        return response.json();
+        return response.text();
       })
       .then(jsonObject => {
         console.log(jsonObject);
@@ -64,7 +70,7 @@ const Game = () => {
         //         }
         //     }
         // }
-        
+
         // let matrixString = '';
         // for (let i = 0; i < rows; i++) {
         //     for (let j = 0; j < columns; j++) {

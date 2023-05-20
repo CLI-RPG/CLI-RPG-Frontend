@@ -1,6 +1,16 @@
 import React from "react";
 
+function getToken() {
+  const tokenString = sessionStorage.getItem('token')
+  return tokenString
+}
+
 const Select = () => {
+
+  function getGames() {
+
+  }
+
   return (
     <html lang="en">
       <head>
