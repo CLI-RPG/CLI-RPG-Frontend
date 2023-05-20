@@ -13,7 +13,7 @@ const Login = () => {
     let username = usernameR.current.value;
     console.log(username);
 
-    let password = CryptoJS.SHA256(passwordR.current.value);
+    let password = CryptoJS.SHA256(passwordR.current.value).toString(CryptoJS.enc.Base64);
     console.log(password);
 
     fetch(url, {
@@ -22,8 +22,8 @@ const Login = () => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username: username,
-            password: password
+            "username": username,
+            "password": password
         })
     })
     .then(response => {
@@ -83,14 +83,14 @@ const Login = () => {
           <button
             id="login_btn"
             style={{ marginTop: "1vh", fontSize: "1.5vw", width: "10vw" }}
-            onClick={buttonFunction(loginURL)}
+            onClick={() => buttonFunction(loginURL)}
           >
             Login
           </button>
           <button
             id="register_btn"
             style={{ marginTop: "1vh", fontSize: "1.5vw", width: "10vw" }}
-            onClick={buttonFunction(registerURL)}
+            onClick={() => buttonFunction(registerURL)}
           >
             Register
           </button>
