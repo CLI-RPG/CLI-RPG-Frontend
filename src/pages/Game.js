@@ -28,8 +28,9 @@ const Game = () => {
     currentEnemyHP: NaN,
     rendered_map: ""
   }
+  const refR = useRef("");
 
-  function getGameData() {
+  function dataGET() {
     fetch( "http://localhost:8000/api/session_data/" + getSessionId(), {
       method: "GET",
       headers: {
@@ -45,61 +46,13 @@ const Game = () => {
     });
   }
 
-  getGameData();
-
-  const refR = useRef("");
-
-  function dataGET() {
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': getToken()
-      }
-    })
-      .then(response => {
-        console.log(response);
-        return response.text();
-      })
-      .then(jsonObject => {
-        console.log(jsonObject);
-        // const totalElements = jsonObject.length;
-        // const rows = Math.ceil(Math.sqrt(totalElements));
-        // const columns = Math.ceil(totalElements / rows);
-
-        // const matrix = Array(rows).fill(0).map(() => Array(columns).fill(0));
-        // let index = 0;
-        // for (let i = 0; i < rows; i++) {
-        //     for (let j = 0; j < columns; j++) {
-        //         if (index < totalElements) {
-        //             matrix[i][j] = jsonObject[index];
-        //             index++;
-        //         } else {
-        //             break;
-        //         }
-        //     }
-        // }
-
-        // let matrixString = '';
-        // for (let i = 0; i < rows; i++) {
-        //     for (let j = 0; j < columns; j++) {
-        //         matrixString += matrix[i][j].toString() + ' ';
-        //     }
-        //     matrixString += '\n';
-        // }
-
-        // console.log(matrixString);
-        // mapR.current.innerText = matrixString;
-
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-
   useEffect(() => {
     dataGET();
   }, []);
+
+  function SendAction() {
+    
+  }
 
   return (
     <>
@@ -161,7 +114,9 @@ const Game = () => {
                   solid: "#39ff14",
                   fontSize: "1.5vw",
                 }}
-                onClick={dataGET()}
+                onClick={() => {
+
+                }}
               >
                 ACT!
               </button>
