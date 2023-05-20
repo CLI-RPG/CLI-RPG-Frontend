@@ -51,7 +51,7 @@ const Game = () => {
   }, []);
 
   function SendAction() {
-    
+
   }
 
   return (
