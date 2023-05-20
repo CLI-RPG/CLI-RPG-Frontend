@@ -1,6 +1,40 @@
 import React from "react";
+import { useRef, useEffect } from 'react';
+
+const session = 'sid1';
+const base = 'http://172.18.0.2:5000/';
+const statsURL = base + 'player_stats/' + session;
 
 const Game = () => {
+  const statsR = useRef("");
+
+  function statusGET() {
+    fetch(statsURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(jsonObject => {
+        let resultString = '';
+        for (const [key, value] of Object.entries(jsonObject)) {
+          resultString += key + '\t- ' + value + '\n';
+        }
+        console.log(resultString);
+        statsR.current.innerText = '>>> STATS\n\n' + resultString;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  useEffect(() => {
+    statusGET();
+  }, []);
+
   return (
     <>
       <head>
@@ -17,11 +51,11 @@ const Game = () => {
                 width: "20vw",
                 height: "20vh",
                 border: "0.25vw solid #39ff14",
-                fontSize: "1.5vw",
+                fontSize: "1vw",
               }}
-              id="label1"
+              id="stats"
+              ref={statsR}
             >
-              lalal
             </pre>
           </div>
           <div className="row">
@@ -61,6 +95,7 @@ const Game = () => {
                   solid: "#39ff14",
                   fontSize: "1.5vw",
                 }}
+                onClick={statusGET()}
               >
                 ACT!
               </button>

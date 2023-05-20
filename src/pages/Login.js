@@ -6,8 +6,8 @@ const registerURL = 'http://localhost:8000/auth/register';
 const loginURL = 'http://localhost:8000/auth/login';
 
 const Login = () => {
-  const usernameR = useRef(null);
-  const passwordR = useRef(null);
+  const usernameR = useRef("");
+  const passwordR = useRef("");
 
   function buttonFunction(url) {
     let username = usernameR.current.value;
