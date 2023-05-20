@@ -3,9 +3,6 @@ import { useRef, useEffect } from 'react';
 
 const session = 'sid1';
 const base = 'http://localhost:8000/api/';
-// const statsURL = base + 'player_stats/' + session;
-const mapURL = base + 'map/' + session;
-
 const url = base + 'session_data/' + session;
 
 function getToken() {
@@ -13,34 +10,46 @@ function getToken() {
   return tokenString
 }
 
+function getSessionId() {
+  const sid = sessionStorage.getItem('sid')
+  return sid
+}
+
 const Game = () => {
-  const statsR = useRef("");
-  const mapR = useRef("");
 
-  // function statusGET() {
-  //   fetch(statsURL, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //     .then(response => {
-  //       return response.json();
-  //     })
-  //     .then(jsonObject => {
-  //       let resultString = '';
-  //       for (const [key, value] of Object.entries(jsonObject)) {
-  //         resultString += key + '\t- ' + value + '\n';
-  //       }
-  //       console.log(resultString);
-  //       statsR.current.innerText = '>>> STATS\n\n' + resultString;
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // }
+  let gamedata = {
+    health: NaN,
+    attackPwr: NaN,
+    shield: NaN,
+    level: NaN,
+    money: NaN,
+    map: [],
+    scenarioID: "scenario name",
+    currentEnemyHP: NaN,
+    rendered_map: ""
+  }
 
-  function mapGET() {
+  function getGameData() {
+    fetch( "http://localhost:8000/api/session_data/" + getSessionId(), {
+      method: "GET",
+      headers: {
+          'x-access-token': getToken()
+      }
+    })
+    .then(response => response.json())
+    .then(gd => {
+      gamedata=gd
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+
+  getGameData();
+
+  const refR = useRef("");
+
+  function dataGET() {
     fetch(url, {
       method: 'GET',
       headers: {
@@ -89,8 +98,7 @@ const Game = () => {
   }
 
   useEffect(() => {
-    // statusGET();
-    mapGET();
+    dataGET();
   }, []);
 
   return (
@@ -112,7 +120,6 @@ const Game = () => {
                 fontSize: "1vw",
               }}
               id="stats"
-              ref={statsR}
             >
             </pre>
           </div>
@@ -139,7 +146,7 @@ const Game = () => {
                 border: "0.25vw solid #39ff14",
                 fontSize: "1.5vw",
               }}
-              ref={mapR}
+              // ref={mapR}
               id="label3"
             >
               lala
@@ -154,7 +161,7 @@ const Game = () => {
                   solid: "#39ff14",
                   fontSize: "1.5vw",
                 }}
-                onClick={mapGET()}
+                onClick={dataGET()}
               >
                 ACT!
               </button>

@@ -1,19 +1,28 @@
 import React from "react";
 import CryptoJS from "crypto-js";
 import {useRef} from 'react';
+import { useNavigate } from "react-router-dom";
+
+import Game from './Game';
+import Select from './Select';
 
 const registerURL = 'http://localhost:8000/auth/register';
 const loginURL = 'http://localhost:8000/auth/login';
+const selectURL = 'http://localhost:8000/auth/select';
 
-function setToken(userToken) {
-  sessionStorage.setItem('token', userToken)
-}
 
 const Login = () => {
+
+  let navigate = useNavigate();
+
+  function setToken(userToken) {
+    sessionStorage.setItem('token', userToken)
+  }
+
   const usernameR = useRef("");
   const passwordR = useRef("");
 
-  function register(url) {
+  function RegisterF(url) {
     let username = usernameR.current.value;
     console.log(username);
 
@@ -38,7 +47,8 @@ const Login = () => {
     });
   }
 
-  function login(url) {
+  function LoginF(url) {
+
     let username = usernameR.current.value;
     console.log(username);
 
@@ -60,7 +70,8 @@ const Login = () => {
         response.json().then(j => {
           console.log(j.token);
           setToken(j.token);
-        })
+        });
+        navigate('../select');
     })
     .catch(error => {
         console.error(error);
@@ -116,14 +127,14 @@ const Login = () => {
           <button
             id="login_btn"
             style={{ marginTop: "1vh", fontSize: "1.5vw", width: "10vw" }}
-            onClick={() => login(loginURL)}
+            onClick={() => LoginF(loginURL)}
           >
             Login
           </button>
           <button
             id="register_btn"
             style={{ marginTop: "1vh", fontSize: "1.5vw", width: "10vw" }}
-            onClick={() => register(registerURL)}
+            onClick={() => RegisterF(registerURL)}
           >
             Register
           </button>
