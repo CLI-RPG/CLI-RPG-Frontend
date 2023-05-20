@@ -44,7 +44,7 @@ const Select = () => {
         return response.text()
     })
     .then(id => {
-      setSessionId(id)
+      setSessionId(id.replace(/^"(.*)"$/, '$1'))
       navigate("../game")
     })
     .catch(error => {
