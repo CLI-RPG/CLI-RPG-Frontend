@@ -1,5 +1,6 @@
 import React from "react";
 import { useRef, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const session = 'sid1';
 const base = 'http://localhost:8000/api/';
@@ -17,6 +18,8 @@ function getSessionId() {
 
 const Game = () => {
 
+  let navigate = useNavigate();
+
   const CommandR = useRef("");
 
   const Scenario_R = useRef("");
@@ -27,27 +30,27 @@ const Game = () => {
 
 
   function dataGET() {
-    fetch( "http://localhost:8000/api/session_data/" + getSessionId(), {
+    fetch("http://localhost:8000/api/session_data/" + getSessionId(), {
       method: "GET",
       headers: {
-          'x-access-token': getToken()
+        'x-access-token': getToken()
       }
     })
-    .then(response => response.json())
-    .then(gd => {
-      Scenario_R.current.innerText = gd.scenarioID
-      Stats_R.current.innerText = "health: " + gd.health + "\nattack: " + gd.attackPwr + "\nshield: " + gd.shield + "\nmoney: " + gd.money
-      Map_R.current.innerText = gd.rendered_map
+      .then(response => response.json())
+      .then(gd => {
+        Scenario_R.current.innerText = gd.name + "\n" + gd.scenarioID
+        Stats_R.current.innerText = "health: " + gd.health + "\nattack: " + gd.attackPwr + "\nshield: " + gd.shield + "\nmoney: " + gd.money
+        Map_R.current.innerText = gd.rendered_map
 
-      Actions_R.current.innerText = ""
+        Actions_R.current.innerText = ""
 
-      for (const [k, v] of Object.entries(gd.actions)) {
-        Actions_R.current.innerText += k + ": " + v + "\n"
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+        for (const [k, v] of Object.entries(gd.actions)) {
+          Actions_R.current.innerText += k + ": " + v + "\n"
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   useEffect(() => {
@@ -64,11 +67,15 @@ const Game = () => {
     }).then(resp => {
       if (resp.status == 410) {
         alert("YOU HAVE DIED")
+        navigate("../select")
+        return ""
       }
       return resp.text()
     }).then(txt => {
-      Response_R.current.innerText = txt.replace(/^"(.*)"$/, '$1');
-      dataGET()
+      if (txt != "") {
+        Response_R.current.innerText = txt.replace(/^"(.*)"$/, '$1');
+        dataGET()
+      }
     })
   }
 
@@ -79,7 +86,7 @@ const Game = () => {
         <title>CLI_RPG Game</title>
         <link rel="stylesheet" type="text/css" href="../styles.css"></link>
       </head>
-      <h1 className="center" ref={Scenario_R} style={{color: "#39ff14"}}>Scenariu joc din DB</h1>
+      <h1 className="center" ref={Scenario_R} style={{ color: "#39ff14" }}>Scenariu joc din DB</h1>
       <div className="container">
         <div className="column">
           <div className="row">
@@ -89,6 +96,9 @@ const Game = () => {
                 height: "20vh",
                 border: "0.25vw solid #39ff14",
                 fontSize: "1vw",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
               }}
               id="stats"
               ref={Stats_R}
@@ -102,6 +112,9 @@ const Game = () => {
                 height: "40vh",
                 border: "0.25vw solid #39ff14",
                 fontSize: "1.5vw",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
               }}
               id="label2"
               ref={Actions_R}
@@ -118,6 +131,9 @@ const Game = () => {
                 height: "50vh",
                 border: "0.25vw solid #39ff14",
                 fontSize: "1.5vw",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
               }}
               ref={Map_R}
               id="label3"
