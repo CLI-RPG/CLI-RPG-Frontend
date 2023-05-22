@@ -33,7 +33,7 @@ const Select = () => {
 
     console.log(name, level, scenario);
 
-    fetch("http://localhost:8000/api/new_game", {
+    fetch("api/new_game", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ const Select = () => {
       });
   }
   useEffect(() => {
-    fetch("http://localhost:8000/api/saved_games", {
+    fetch("api/saved_games", {
       headers: {
         'x-access-token': getToken()
       }

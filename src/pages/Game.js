@@ -2,10 +2,6 @@ import React from "react";
 import { useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
-const session = 'sid1';
-const base = 'http://localhost:8000/api/';
-const url = base + 'session_data/' + session;
-
 function getToken() {
   const tokenString = sessionStorage.getItem('token')
   return tokenString
@@ -30,7 +26,7 @@ const Game = () => {
 
 
   function dataGET() {
-    fetch("http://localhost:8000/api/session_data/" + getSessionId(), {
+    fetch("api/session_data/" + getSessionId(), {
       method: "GET",
       headers: {
         'x-access-token': getToken()
@@ -59,7 +55,7 @@ const Game = () => {
 
   function SendAction() {
     let action = parseInt(CommandR.current.value)
-    fetch("http://localhost:8000/api/act/" + getSessionId() + "/" + action, {
+    fetch("api/act/" + getSessionId() + "/" + action, {
       method: "POST",
       headers: {
         'x-access-token': getToken()

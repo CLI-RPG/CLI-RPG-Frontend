@@ -3,12 +3,9 @@ import CryptoJS from "crypto-js";
 import {useRef} from 'react';
 import { useNavigate } from "react-router-dom";
 
-import Game from './Game';
-import Select from './Select';
 
-const registerURL = 'http://localhost:8000/auth/register';
-const loginURL = 'http://localhost:8000/auth/login';
-const selectURL = 'http://localhost:8000/auth/select';
+const registerURL = 'auth/register';
+const loginURL = 'auth/login';
 
 
 const Login = () => {
